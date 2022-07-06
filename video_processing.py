@@ -1,6 +1,9 @@
 from cmath import pi
 import cv2 as cv
 import numpy as np
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
 import math
 import sys
 
@@ -8,7 +11,6 @@ BLUE_LOWER = np.array([105, 93, 0])
 BLUE_UPPER = np.array([135, 255, 255])
 YELLOW_LOWER = np.array([15, 93, 0], dtype="uint8")
 YELLOW_UPPER = np.array([45, 255, 255], dtype="uint8")
-PERSPECTIVE_SHIFT_COORDS = [(), (), (), ()]
 
 # -------------------------------------------------------------------------------
 # IMPORTANT
@@ -94,11 +96,16 @@ def direction(mask_1, mask_2):
         return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2
 
 # no video feed yet lol but img_processing for each frame should work
-capture = cv.VideoCapture('Videos/camera_feed')
+camera = PiCamera()
+camera.resolution = (820, 616)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(820, 616))
 
-while True:
-    img = cv.imread('Photos/test/test_left.jpg')
-    img_resized = frameRescale(img, 0.05)
+time.sleep(0.1)
+
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+    img = frame.array
+    img_resized = frameRescale(img, 1)
     perspective_shifted = perspectiveShift(img_resized)
     print(img_resized.shape)
     hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
@@ -116,10 +123,11 @@ while True:
     # cv.imshow("hsv", hsv_img)
     cv.imshow("original", img_resized)
     cv.imshow("perspective shift", perspective_shifted)
-    cv.imshow ("yellow_mask", yellow_mask)
+    # cv.imshow ("yellow_mask", yellow_mask)
     # cv.imshow ("blue_mask", blue_mask)
-    # cv.imshow ("yellow_edge", edge_yellow)
-    # cv.imshow ("blue_edge", edge_blue)
+    cv.imshow ("yellow_edge", edge_yellow)
+    cv.imshow ("blue_edge", edge_blue)
+    key = cv.waitKey(1) & 0xFF
 
     if working_gradient is None:
         goStraight()
@@ -132,9 +140,8 @@ while True:
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
             TurnLeft(turn_angle)
-
-    if cv.waitkey(20) & 0xFF==ord('d'):
-        break
+    rawCapture.truncate(0)
+    
 
 capture.release()
 cv.destroyAllWindows()
