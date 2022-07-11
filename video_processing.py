@@ -138,13 +138,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     print(f'working gradient = {working_gradient}')
 
-#     cv.imshow("hsv", hsv_img)
-    cv.imshow("original", img_resized)
+    # cv.imshow("hsv", hsv_img)
+    # cv.imshow("original", img_resized)
     # cv.imshow("perspective shift", perspective_shifted)
-    cv.imshow("yellow_mask", yellow_mask)
-    cv.imshow("blue_mask", blue_mask)
-#     cv.imshow ("yellow_edge", edge_yellow)
-#     cv.imshow ("blue_edge", edge_blue)
+    # cv.imshow("yellow_mask", yellow_mask)
+    # cv.imshow("blue_mask", blue_mask)
+    # cv.imshow ("yellow_edge", edge_yellow)
+    # cv.imshow ("blue_edge", edge_blue)
     key = cv.waitKey(1) & 0xFF
 
     if working_gradient is None:
