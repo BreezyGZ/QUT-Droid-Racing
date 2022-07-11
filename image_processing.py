@@ -90,7 +90,7 @@ def direction(mask_1, mask_2):
         return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2
 
     
-img = cv.imread('Photos/test/test_straight.jpg')
+img = cv.imread('Photos/test/test_right.jpg')
 img_resized = frameRescale(img, 0.20)
 perspective_shifted = perspectiveShift(img_resized)
 hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
