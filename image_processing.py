@@ -116,8 +116,6 @@ edge_blue = cv.Canny(blue_mask, 40, 150)
 # compare gradients of yellow and blue masks and choose whichever is greater, 
 # use that gradient to determine steering amount 
 
-print(cv.findNonZero(edge_blue))
-
 working_gradient = direction(edge_blue, edge_yellow)
 
 print(f'working gradient = {working_gradient}')
