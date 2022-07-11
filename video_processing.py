@@ -6,24 +6,38 @@ from picamera import PiCamera
 import time
 import math
 import sys
+import serial
 
-BLUE_LOWER = np.array([105, 93, 0])
-BLUE_UPPER = np.array([135, 255, 255])
-YELLOW_LOWER = np.array([15, 93, 0], dtype="uint8")
-YELLOW_UPPER = np.array([45, 255, 255], dtype="uint8")
+BLUE_LOWER = np.array([100, 93, 15])
+BLUE_UPPER = np.array([120, 255, 255])
+YELLOW_LOWER = np.array([15, 93, 15])
+YELLOW_UPPER = np.array([45, 255, 255])
 
 # -------------------------------------------------------------------------------
 # IMPORTANT
+def sendTurn(angle):
+    
+    return
 def goStraight():
-    print("Go straight")
+    if ser.inWaiting() > 0:
+        print("Go straight")
+        ser.write('f'.encode('utf-8'))
+        ser.flushInput()
     return
 
 def TurnLeft(angle):
-    print(f"Turn left: {angle}")
+    if ser.inWaiting() > 0:
+        print(f"Turn left: {angle}")
+        ser.write('l'.encode('utf-8'))
+        ser.flushInput()
     return
 
 def TurnRight(angle):
-    print(f"Turn right: {angle}")
+    if ser.inWaiting() > 0:
+        print(f"Turn right: {angle}")
+        ser.write('r'.encode('utf-8'))
+        ser.flushInput()
+    
     return
 
 # ---------------------------------------------------------------------------------
@@ -101,9 +115,13 @@ camera.resolution = (820, 616)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(820, 616))
 
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+ser.reset_input_buffer()
+
 time.sleep(0.1)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+    time.sleep(0.1)
     img = frame.array
     img_resized = frameRescale(img, 1)
     perspective_shifted = perspectiveShift(img_resized)
@@ -120,13 +138,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     print(f'working gradient = {working_gradient}')
 
-    # cv.imshow("hsv", hsv_img)
+#     cv.imshow("hsv", hsv_img)
     cv.imshow("original", img_resized)
-    cv.imshow("perspective shift", perspective_shifted)
-    # cv.imshow ("yellow_mask", yellow_mask)
-    # cv.imshow ("blue_mask", blue_mask)
-    cv.imshow ("yellow_edge", edge_yellow)
-    cv.imshow ("blue_edge", edge_blue)
+    # cv.imshow("perspective shift", perspective_shifted)
+    cv.imshow ("yellow_mask", yellow_mask)
+    cv.imshow ("blue_mask", blue_mask)
+#     cv.imshow ("yellow_edge", edge_yellow)
+#     cv.imshow ("blue_edge", edge_blue)
     key = cv.waitKey(1) & 0xFF
 
     if working_gradient is None:
