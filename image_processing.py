@@ -90,10 +90,9 @@ def direction(mask_1, mask_2):
         return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2
 
     
-img = cv.imread('Photos/test/test_left.jpg')
-img_resized = frameRescale(img, 0.05)
+img = cv.imread('Photos/test/test_straight.jpg')
+img_resized = frameRescale(img, 0.20)
 perspective_shifted = perspectiveShift(img_resized)
-print(img_resized.shape)
 hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
 
 blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
@@ -109,7 +108,7 @@ edge_blue = cv.Canny(blue_mask, 40, 150)
 # cv.imshow("hsv", hsv_img)
 cv.imshow("original", img_resized)
 cv.imshow("perspective shift", perspective_shifted)
-cv.imshow ("yellow_mask", yellow_mask)
+# cv.imshow ("yellow_mask", yellow_mask)
 # cv.imshow ("blue_mask", blue_mask)
 # cv.imshow ("yellow_edge", edge_yellow)
 # cv.imshow ("blue_edge", edge_blue)
@@ -140,5 +139,5 @@ else:
 
 
 
-cv.waitKey(20000)
+cv.waitKey(40000)
 cv.destroyAllWindows()
