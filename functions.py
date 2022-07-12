@@ -1,0 +1,94 @@
+from cmath import pi
+import cv2 as cv
+import numpy as np
+import math
+import sys
+# from picamera.array import PiRGBArray
+# from picamera import PiCamera
+import time
+import serial
+def goStraight():
+    print("Go straight")
+    ser.write('f'.encode('utf-8'))
+    ser.flushInput()
+    return
+
+def TurnLeft(angle):
+    print(f"Turn left: {angle}")
+    ser.write('l'.encode('utf-8'))
+    ser.flushInput()
+    return
+
+def TurnRight(angle):
+    print(f"Turn right: {angle}")
+    ser.write('r'.encode('utf-8'))
+    ser.flushInput()
+    return
+
+# resizes the image to be more manageable
+def frameRescale(frame, scale):
+    width = int(frame.shape[1] * scale)
+    height = int(frame.shape[0] * scale)
+    dim = (width, height)
+    return cv.resize(frame, dim, interpolation = cv.INTER_AREA)
+
+# takes the ground directly in front of the car and manipulates it into birdseye view
+def perspectiveShift(frame):
+    frame_x = frame.shape[1]
+    frame_y = frame.shape[0]
+    coords = np.float32([
+        [frame_x * 0.25, frame_y * 0.5], [frame_x * 0.75, frame_y * 0.5], 
+        [0, frame_y * 0.75], [frame_x, frame_y * 0.75]
+        ])
+    transformed = np.float32([[0 ,0], [frame_x, 0], [0, frame_y], [frame_x, frame_y]])
+    
+    matrix =  cv.getPerspectiveTransform(coords, transformed)
+    return cv.warpPerspective(frame, matrix, (frame_x, frame_y))
+    
+# finds y-value of the non-zero pixel closest to top of image
+def findMinY(mask):
+    points = cv.findNonZero(mask)
+    minY = mask.shape[0]
+    for point in points:
+        if point[0][1] < minY:
+            minY = point[0][1]
+    return minY
+
+# finds y-value of the non-zero pixel closest to bottom of image
+def findMaxY(mask):
+    points = cv.findNonZero(mask)
+    maxY = 0
+    for point in points:
+        if point[0][1] > maxY:
+            maxY = point[0][1]
+    return maxY
+
+# finds average of x-values at a certain y value
+def findAverageX(mask, y):
+    points = cv.findNonZero(mask)
+    x_values = []
+    for point in points:
+        if point[0][1] == y:
+            x_values.append(point[0][0])
+    return np.mean(x_values)
+
+# finds the gradient of the line drawn between the bottom most non-zero pixel 
+# and the centre of all non-zero pixels
+def gradientOfMask(mask):
+    max = (findAverageX(mask, findMaxY(mask)), findMaxY(mask))
+    min = (findAverageX(mask, findMinY(mask)), findMinY(mask))
+    # divison by zero check?
+    if min[0] - max[0] == 0:
+        return math.inf
+    return (min[1] - max[1])/(min[0] - max[0])
+
+# returns the gradient of the direction the car will steer, None if no yellow or blue can be seen
+def direction(mask_1, mask_2):
+    if cv.findNonZero(mask_1) is None and cv.findNonZero(mask_2) is None:
+        return None
+    elif cv.findNonZero(mask_2) is None:
+        return gradientOfMask(mask_1)
+    elif cv.findNonZero(mask_1) is None:
+        return gradientOfMask(mask_2)
+    else:
+        return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2

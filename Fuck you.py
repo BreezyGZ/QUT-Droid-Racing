@@ -3,8 +3,8 @@ from time import sleep
 
 led = LED(2)
 
-while (1):
+while True:
     led.on()
-    sleep(1)
+    sleep(0.5)
     led.off()
-    sleep(1)
+    sleep(0.5)
