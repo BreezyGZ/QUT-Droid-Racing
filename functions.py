@@ -25,6 +25,26 @@ def TurnRight(ser, angle):
     ser.flushInput()
     return
 
+# def goStraight(ser):
+#     print("Go straight")
+#     ser.write('512\n'.encode('utf-8'))
+#     ser.flushInput()
+#     return
+
+# def TurnLeft(ser, angle):
+#     voltage = 512 - (392*angle/90)
+#     print(f"Turn left: {angle}")
+#     ser.write(f'{voltage}\n'.encode('utf-8'))
+#     ser.flushInput()
+#     return
+
+# def TurnRight(ser, angle):
+#     voltage = 512 + (392*angle/90)
+#     print(f"Turn right: {angle}")
+#     ser.write(f'{voltage}\n'.encode('utf-8'))
+#     ser.flushInput()
+#     return
+
 # resizes the image to be more manageable
 def frameRescale(frame, scale):
     width = int(frame.shape[1] * scale)
@@ -93,21 +113,23 @@ def direction(mask_1, mask_2):
     else:
         return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2
 
-def findLargestContour(mask, area_threshold):
-    blank_image = np.zeros((mask.shape[0], mask.shape[1], 3), dtype = "uint8")
-    cnts_img = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
-    largest_contour = None
-    largest_area = 0
+# def findLargestContour(mask, area_threshold):
+#     blank_image = np.zeros((mask.shape[0], mask.shape[1], 3), dtype = "uint8")
+#     cnts_img = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
+#     largest_contour = None
+#     largest_area = 0
 
-    for contour in cnts_img:
-        contour_area = cv.contourArea(contour)
-        if (contour_area > largest_area) and contour_area > area_threshold:
-            largest_contour = contour
-    if largest_contour is not None:
-        cv.drawContours(blank_image, [largest_contour], -1, (255,255,255), 2)
-    return (blank_image, largest_area)
+#     for contour in cnts_img:
+#         contour_area = cv.contourArea(contour)
+#         if (contour_area > largest_area) and contour_area > area_threshold:
+#             largest_contour = contour
+#     if largest_contour is not None:
+#         cv.drawContours(blank_image, [largest_contour], -1, (255,255,255), 2)
+#     return (blank_image, largest_area)
 
 def sendTurn(ser, working_gradient):
+    while ser.inWaiting() <= 0:
+        time.sleep(0.05)
     if working_gradient is None:
             goStraight(ser)
     else:
@@ -120,6 +142,8 @@ def sendTurn(ser, working_gradient):
             TurnLeft(ser, turn_angle)
 
 def biasedSendTurn(ser, working_gradient, turn_direction):
+    while ser.inWaiting() <= 0:
+        time.sleep(0.05)
     if working_gradient is None:
         if turn_direction == "left": 
             TurnLeft(ser, 45)

@@ -4,7 +4,7 @@ import numpy as np
 import math
 import sys
 from matplotlib import pyplot as plt
-from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour
+from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask
 from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD
 
 sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
@@ -63,7 +63,7 @@ def signRecognise(frame, contour_sign_left, contour_sign_right, black_threshold,
         return "right"
     return None
 
-# def sign_detected_script(sign_direction, edge_blue, edge_yellow):
+# def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
 #     if sign_direction == "left":
 #         TurnLeft(45)
 #         edge_used = edge_blue
