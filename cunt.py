@@ -7,7 +7,7 @@ import time
 import math
 import sys
 import serial
-from functions import TurnRight
+from functions import TurnRight, goStraight
 
 if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
@@ -15,8 +15,10 @@ if __name__ == '__main__':
     time.sleep(0.1)
     while True:
         TurnRight(ser, 20)
-        ser.flushInput()
-        time.sleep(0.5)
+        time.sleep(2)
+        goStraight(ser)
+        time.sleep(2)
+
 #         ser.write('right\n'.encode('utf-8'))
 #         ser.flushInput()
 #         time.sleep(2)

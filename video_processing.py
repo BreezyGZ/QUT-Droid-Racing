@@ -24,6 +24,7 @@ time.sleep(0.1)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # if ser.inWaiting() > 0:
+    time.sleep(0.2)
     img = frame.array
     img_resized = frameRescale(img, 1)
     perspective_shifted = perspectiveShift(img_resized)
@@ -48,7 +49,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     print(working_gradient)
     sendTurn(ser, working_gradient)
     # cv.imshow("hsv", hsv_img)
-    cv.imshow("original", img_resized)
+#     cv.imshow("original", img_resized)
     # cv.imshow("perspective shift", perspective_shifted)
     # cv.imshow("yellow_mask", yellow_mask)
     # cv.imshow("blue_mask", blue_mask)
