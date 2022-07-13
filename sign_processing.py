@@ -5,12 +5,8 @@ import math
 import sys
 from matplotlib import pyplot as plt
 from pyparsing import match_previous_expr
-from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask
-
-BLACK_THRESHOLD = 20
-# ??? Will need to test these parameters
-CONTOUR_AREA_THRESHOLD = 1000
-SIMILARITY_THRESHOLD = 3.3
+from functions import sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour
+from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD
 
 sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
 sign_right = frameRescale(cv.imread("Photos/turn_right.png"), 0.15)
@@ -39,28 +35,32 @@ def signRecognise(frame, contour_sign_left, contour_sign_right, black_threshold,
     greyscale = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
     black_mask = cv.inRange(greyscale, 0, black_threshold)
     cnts_img = cv.findContours(black_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
-    big_contours = []
 
-    for c in cnts_img:
-        area = cv.contourArea(c)
-        if area > CONTOUR_AREA_THRESHOLD:
-            big_contours.append(c)
-    if len(big_contours) == 0:
+    contour_max = findLargestContour(black_mask, CONTOUR_AREA_THRESHOLD_BLACK)
+    
+    if contour_max[0] is None:
         return None
-
-    match_left = cv.matchShapes(contour_sign_left, big_contours[0], 1, 0.0)
-    match_right = cv.matchShapes(contour_sign_right, big_contours[0], 1, 0.0)
+    match_left = cv.matchShapes(contour_sign_left, contour_max[0], 1, 0.0)
+    match_right = cv.matchShapes(contour_sign_right, contour_max[0], 1, 0.0)
+    
     if (match_left < match_right and match_left < similarity_threshold):
         return "left"
     elif (match_right < match_left and match_right < similarity_threshold):
         return "right"
-    
     return None
 
-
-
-
-
+def sign_detected_script(perspective_shift_view, sign_direction, edge_blue, edge_yellow):
+    if sign_direction == "left":
+        TurnLeft(45)
+        edge_used = edge_blue
+    if sign_direction == "right":
+        TurnRight(45)
+        edge_used = edge_yellow
+    
+    count = DURATION_OF_TURN
+    while count > 0 and ser.inWaiting() > 0:
+        sendTurn(direction(edge_used, edge_used))
+        count -= 1
 
 
 big_contours = []

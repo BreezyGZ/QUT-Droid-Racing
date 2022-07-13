@@ -3,15 +3,9 @@ import cv2 as cv
 import numpy as np
 import math
 import sys
-from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, goStraight, TurnLeft, TurnRight
+from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour, goStraight, TurnLeft, TurnRight
+from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
 
-BLUE_LOWER = np.array([105, 93, 0])
-BLUE_UPPER = np.array([135, 255, 255])
-YELLOW_LOWER = np.array([15, 93, 0], dtype="uint8")
-YELLOW_UPPER = np.array([45, 255, 255], dtype="uint8")
-PERSPECTIVE_SHIFT_COORDS = [(), (), (), ()]
-
-    
 img = cv.imread('Photos/test/test_right.jpg')
 img_resized = frameRescale(img, 0.20)
 perspective_shifted = perspectiveShift(img_resized)
@@ -20,8 +14,8 @@ hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
 blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
 yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
 
-edge_yellow = cv.Canny(yellow_mask, 40, 150)
-edge_blue = cv.Canny(blue_mask, 40, 150)
+edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
 
 # ditching hough approach
 # lines_yellow = cv.HoughLinesP(edge_yellow, 1, np.pi / 180, 50, None, 50, 10)

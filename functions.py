@@ -92,3 +92,28 @@ def direction(mask_1, mask_2):
         return gradientOfMask(mask_2)
     else:
         return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2
+
+def findLargestContour(mask, area_threshold):
+    blank_image = np.zeros(mask.shape, 0)
+    cnts_img = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
+    largest_contour = None
+    largest_area = 0
+
+    for contour in cnts_img:
+        contour_area = cv.contourArea(contour)
+        if (contour_area > largest_area) and contour_area > area_threshold:
+            largest_contour = contour
+    cv.drawContours(blank_image, [largest_contour], -1, (255,255,255), 2)
+    return (blank_image, largest_area)
+
+def sendTurn(working_gradient):
+    if working_gradient is None:
+            goStraight()
+    else:
+        gradient_angle = math.atan(working_gradient)
+        if gradient_angle < 0:
+            turn_angle = math.degrees(math.pi/2 + gradient_angle)
+            TurnRight(turn_angle)
+        else:
+            turn_angle = math.degrees(math.pi/2 - gradient_angle)
+            TurnLeft(turn_angle)
