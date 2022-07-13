@@ -40,7 +40,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # if is_sign is not None:
     #     sign_detected_script(is_sign, edge_blue, edge_yellow)
     
-    working_gradient = direction(edge_blue, edge_yellow)
+    working_gradient = direction(blue_mask, yellow_mask)
     sendTurn(working_gradient)
     # cv.imshow("hsv", hsv_img)
     cv.imshow("original", img_resized)
