@@ -21,8 +21,13 @@ ser.reset_input_buffer()
 
 time.sleep(0.1)
 
+i = 0
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     if ser.inWaiting() > 0:
+        if i == 10:
+            ser.write("kill".encode("utf-8"))
+            exit()
+        i += 1
         img = frame.array
         img_resized = frameRescale(img, 1)
         perspective_shifted = perspectiveShift(img_resized)
