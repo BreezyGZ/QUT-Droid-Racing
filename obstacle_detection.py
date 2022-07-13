@@ -18,7 +18,11 @@ if purple detected and ultra sonic detected:
     if distance(purple, blue) < distance(purple, yellow):
         
 """
+<<<<<<< HEAD
 
+=======
+# 
+>>>>>>> 275555df02cb3819ca870ab930610875589ff249
 # img = cv.imread("Photos/palette_wheel.png")
 # img_resized = frameRescale(img, 0.5)
 # hsv_img = cv.cvtColor(img_resized, cv.COLOR_BGR2HSV)
@@ -69,7 +73,6 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
 #     distance_from_blue = 0
 # else:
 #     distance_from_blue = abs(obs_base[0] - findAverageX(edge_blue, obs_base[1]))
-
 # if edge_yellow is None:
 #     distance_from_yellow = 0
 # else:

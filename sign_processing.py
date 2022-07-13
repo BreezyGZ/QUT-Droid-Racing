@@ -7,14 +7,14 @@ from matplotlib import pyplot as plt
 from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask
 from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD
 
-sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
-sign_right = frameRescale(cv.imread("Photos/turn_right.png"), 0.15)
-sign_left_mask = cv.bitwise_not(cv.cvtColor(sign_left, cv.COLOR_BGR2GRAY))
-sign_right_mask = cv.bitwise_not(cv.cvtColor(sign_right, cv.COLOR_BGR2GRAY))
-cnts_left, hierarchy_left = cv.findContours(sign_left_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-cnts_right, hierarchy_right = cv.findContours(sign_right_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-contour_left = cnts_left[0]
-contour_right = cnts_right[0]
+# sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
+# sign_right = frameRescale(cv.imread("Photos/turn_right.png"), 0.15)
+# sign_left_mask = cv.bitwise_not(cv.cvtColor(sign_left, cv.COLOR_BGR2GRAY))
+# sign_right_mask = cv.bitwise_not(cv.cvtColor(sign_right, cv.COLOR_BGR2GRAY))
+# cnts_left, hierarchy_left = cv.findContours(sign_left_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+# cnts_right, hierarchy_right = cv.findContours(sign_right_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+# contour_left = cnts_left[0]
+# contour_right = cnts_right[0]
 
 
 # # sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
@@ -26,12 +26,12 @@ contour_right = cnts_right[0]
 # # contour_left = cnts_left[0]
 # # contour_right = cnts_right[0]
 
-img = cv.imread("Photos/aditha.jpg")
-img_resized = frameRescale(img, 0.15)
-blur = cv.medianBlur(img_resized, 9)
-greyscale = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
-black_mask = cv.inRange(greyscale, 0, BLACK_THRESHOLD)
-cnts_left, hierarchy_left = cv.findContours(sign_left_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+# img = cv.imread("Photos/aditha.jpg")
+# img_resized = frameRescale(img, 0.15)
+# blur = cv.medianBlur(img_resized, 9)
+# greyscale = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
+# black_mask = cv.inRange(greyscale, 0, BLACK_THRESHOLD)
+# cnts_left, hierarchy_left = cv.findContours(sign_left_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
 def signRecognise(frame, contour_sign_left, contour_sign_right, black_threshold, similarity_threshold):
     """

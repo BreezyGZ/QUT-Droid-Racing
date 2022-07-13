@@ -128,8 +128,8 @@ def direction(mask_1, mask_2):
 #     return (blank_image, largest_area)
 
 def sendTurn(ser, working_gradient):
-    while ser.inWaiting() <= 0:
-        time.sleep(0.05)
+#     while not (ser.inWaiting() > 0):
+#         time.sleep(0.05)
     if working_gradient is None:
             goStraight(ser)
     else:
