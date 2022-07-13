@@ -12,7 +12,7 @@ from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, fi
 from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
 
 camera = PiCamera()
-camera.resolution = (820, 616)
+camera.resolution = (832, 624)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(820, 616))
 
@@ -56,7 +56,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         # cv.imshow ("yellow_edge", edge_yellow)
         # cv.imshow ("blue_edge", edge_blue)
         key = cv.waitKey(1) & 0xFF
-
         
         rawCapture.truncate(0)
     
