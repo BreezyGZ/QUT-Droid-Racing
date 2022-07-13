@@ -14,20 +14,15 @@ from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER,
 camera = PiCamera()
 camera.resolution = (832, 624)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(820, 616))
+rawCapture = PiRGBArray(camera, size=(832, 624))
 
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 ser.reset_input_buffer()
 
 time.sleep(0.1)
 
-i = 0
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     if ser.inWaiting() > 0:
-        if i == 10:
-            ser.write("kill".encode("utf-8"))
-            exit()
-        i += 1
         img = frame.array
         img_resized = frameRescale(img, 1)
         perspective_shifted = perspectiveShift(img_resized)
@@ -46,7 +41,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         #     sign_detected_script(is_sign, edge_blue, edge_yellow)
         
         working_gradient = direction(edge_blue, edge_yellow)
-        print(f'working gradient = {working_gradient}')
         sendTurn(working_gradient)
         # cv.imshow("hsv", hsv_img)
         # cv.imshow("original", img_resized)
@@ -58,7 +52,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         key = cv.waitKey(1) & 0xFF
         
         rawCapture.truncate(0)
-    
-
-capture.release()
-cv.destroyAllWindows()
+        if key == ord("q"):
+            break
+# cv.destroyAllWindows()
