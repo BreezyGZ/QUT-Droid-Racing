@@ -9,21 +9,19 @@ import time
 import serial
 def goStraight(ser):
     print("Go straight")
-    ser.write('512'.encode('utf-8'))
+    ser.write('straight\n'.encode('utf-8'))
     ser.flushInput()
     return
 
 def TurnLeft(ser, angle):
-    modded = 512 + (angle/90 * 392)
     print(f"Turn left: {angle}")
-    ser.write(f'{modded}'.encode('utf-8'))
+    ser.write('left\n'.encode('utf-8'))
     ser.flushInput()
     return
 
 def TurnRight(ser, angle):
-    modded = 512 - (angle/90 * 392)
     print(f"Turn right: {angle}")
-    ser.write(f'{modded}'.encode('utf-8'))
+    ser.write('right\n'.encode('utf-8'))
     ser.flushInput()
     return
 
