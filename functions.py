@@ -117,3 +117,18 @@ def sendTurn(working_gradient):
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
             TurnLeft(turn_angle)
+
+def biasedSendTurn(working_gradient, turn_direction):
+    if working_gradient is None:
+        if turn_direction == "left": 
+            TurnLeft(45)
+        if turn_direction == "right":
+            TurnRight(45)
+    else:
+        gradient_angle = math.atan(working_gradient)
+        if gradient_angle < 0:
+            turn_angle = math.degrees(math.pi/2 + gradient_angle)
+            TurnRight(turn_angle)
+        else:
+            turn_angle = math.degrees(math.pi/2 - gradient_angle)
+            TurnLeft(turn_angle)

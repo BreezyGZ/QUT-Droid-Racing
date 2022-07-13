@@ -8,7 +8,7 @@ import math
 import sys
 import serial
 from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour, goStraight, TurnLeft, TurnRight, sendTurn
-from sign_processing import signRecognise, sign_detected_script
+# from sign_processing import signRecognise, sign_detected_script
 from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
 
 camera = PiCamera()
@@ -34,11 +34,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
         edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
 
-        is_sign = signRecognise(img_resized, CONTOUR_LEFT, CONTOUR_RIGHT, BLACK_THRESHOLD, SIMILARITY_THRESHOLD)
-        # maybe write something more complex lol?
-        # could run all straight turns as left/right turns for a few loops?
-        if is_sign is not None:
-            sign_detected_script()
+        # is_sign = signRecognise(img_resized, CONTOUR_LEFT, CONTOUR_RIGHT, BLACK_THRESHOLD, SIMILARITY_THRESHOLD)
+        # # maybe write something more complex lol?
+        # # could run all straight turns as left/right turns for a few loops?
+        # if is_sign is not None:
+        #     sign_detected_script(is_sign, edge_blue, edge_yellow)
         
         working_gradient = direction(edge_blue, edge_yellow)
         print(f'working gradient = {working_gradient}')
