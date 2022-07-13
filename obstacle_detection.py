@@ -19,15 +19,15 @@ if purple detected and ultra sonic detected:
         
 """
 
-img = cv.imread("Photos/palette_wheel.png")
-img_resized = frameRescale(img, 0.5)
-hsv_img = cv.cvtColor(img_resized, cv.COLOR_BGR2HSV)
-blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
-yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
-purple_mask = cv.inRange(hsv_img, PURPLE_LOWER, PURPLE_UPPER)
-edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
-edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
-block_edges = findLargestContour(purple_mask, CONTOUR_AREA_THRESHOLD_PURPLE)[0]
+# img = cv.imread("Photos/palette_wheel.png")
+# img_resized = frameRescale(img, 0.5)
+# hsv_img = cv.cvtColor(img_resized, cv.COLOR_BGR2HSV)
+# blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
+# yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
+# purple_mask = cv.inRange(hsv_img, PURPLE_LOWER, PURPLE_UPPER)
+# edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+# edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+# block_edges = findLargestContour(purple_mask, CONTOUR_AREA_THRESHOLD_PURPLE)[0]
 
 def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask):
     purple_mask = cv.inRange(hsv_img, PURPLE_LOWER, PURPLE_UPPER)
@@ -35,11 +35,11 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
         return
     obs_base = (findAverageX(purple_mask, findMaxY(purple_mask)), findMaxY(purple_mask))
 
-    if edge_blue is None:
+    if blue_mask is None:
         distance_from_blue = 0
     else:
         distance_from_blue = abs(obs_base[0] - findAverageX(blue_mask, obs_base[1]))
-    if edge_yellow is None:
+    if yellow_mask is None:
         distance_from_yellow = 0
     else:
         distance_from_yellow = abs(obs_base[0] - findAverageX(yellow_mask, obs_base[1]))
@@ -61,24 +61,24 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
     return
 
 
-if block_edges is None:
-    help = "help"
-obs_base = (findAverageX(block_edges, findMaxY(block_edges)), findMaxY(block_edges))
+# if block_edges is None:
+#     help = "help"
+# obs_base = (findAverageX(block_edges, findMaxY(block_edges)), findMaxY(block_edges))
 
-if edge_blue is None:
-    distance_from_blue = 0
-else:
-    distance_from_blue = abs(obs_base[0] - findAverageX(edge_blue, obs_base[1]))
+# if edge_blue is None:
+#     distance_from_blue = 0
+# else:
+#     distance_from_blue = abs(obs_base[0] - findAverageX(edge_blue, obs_base[1]))
 
-if edge_yellow is None:
-    distance_from_yellow = 0
-else:
-    distance_from_yellow = abs(obs_base[0] - findAverageX(edge_yellow, obs_base[1]))
+# if edge_yellow is None:
+#     distance_from_yellow = 0
+# else:
+#     distance_from_yellow = abs(obs_base[0] - findAverageX(edge_yellow, obs_base[1]))
 
 
 
-cv.imshow("original", img_resized)
-cv.imshow("purple", purple_mask)
+# cv.imshow("original", img_resized)
+# cv.imshow("purple", purple_mask)
 
-cv.waitKey(10000)
-cv.destroyAllWindows()
+# cv.waitKey(10000)
+# cv.destroyAllWindows()
