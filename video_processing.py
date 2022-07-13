@@ -51,7 +51,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         # cv.imshow ("blue_edge", edge_blue)
         key = cv.waitKey(1) & 0xFF
         
-        rawCapture.truncate(0)
+        rawCapture.truncate()
         if key == ord("q"):
             break
 # cv.destroyAllWindows()
