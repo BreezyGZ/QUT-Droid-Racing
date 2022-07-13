@@ -14,14 +14,15 @@ def goStraight():
     return
 
 def TurnLeft(angle):
+    modded = 512 + (angle/90 * 392)
     print(f"Turn left: {angle}")
-    ser.write('l'.encode('utf-8'))
+    ser.write(f'{modded}'.encode('utf-8'))
     ser.flushInput()
     return
 
 def TurnRight(angle):
     print(f"Turn right: {angle}")
-    ser.write('r'.encode('utf-8'))
+    ser.write(f'{modded}'.encode('utf-8'))
     ser.flushInput()
     return
 
