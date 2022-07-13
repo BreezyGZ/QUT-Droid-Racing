@@ -41,7 +41,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     #     sign_detected_script(is_sign, edge_blue, edge_yellow)
     
     working_gradient = direction(blue_mask, yellow_mask)
-    sendTurn(working_gradient)
+    print(working_gradient)
+    # sendTurn(working_gradient)
     # cv.imshow("hsv", hsv_img)
     cv.imshow("original", img_resized)
     # cv.imshow("perspective shift", perspective_shifted)
