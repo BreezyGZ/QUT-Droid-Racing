@@ -7,20 +7,21 @@ import sys
 # from picamera import PiCamera
 import time
 import serial
-def goStraight():
+def goStraight(ser):
     print("Go straight")
-    ser.write('f'.encode('utf-8'))
+    ser.write('512'.encode('utf-8'))
     ser.flushInput()
     return
 
-def TurnLeft(angle):
+def TurnLeft(ser, angle):
     modded = 512 + (angle/90 * 392)
     print(f"Turn left: {angle}")
     ser.write(f'{modded}'.encode('utf-8'))
     ser.flushInput()
     return
 
-def TurnRight(angle):
+def TurnRight(ser, angle):
+    modded = 512 - (angle/90 * 392)
     print(f"Turn right: {angle}")
     ser.write(f'{modded}'.encode('utf-8'))
     ser.flushInput()
@@ -105,32 +106,32 @@ def findLargestContour(mask, area_threshold):
         if (contour_area > largest_area) and contour_area > area_threshold:
             largest_contour = contour
     if largest_contour is not None:
-        cv.drawContours(image=blank_image, contours=[largest_contour], contourIdx=-1, color=(255,255,255), thickness=2)
+        cv.drawContours(blank_image, [largest_contour], -1, (255,255,255), 2)
     return (blank_image, largest_area)
 
-def sendTurn(working_gradient):
+def sendTurn(ser, working_gradient):
     if working_gradient is None:
-            goStraight()
+            goStraight(ser)
     else:
         gradient_angle = math.atan(working_gradient)
         if gradient_angle < 0:
             turn_angle = math.degrees(math.pi/2 + gradient_angle)
-            TurnRight(turn_angle)
+            TurnRight(ser, turn_angle)
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
-            TurnLeft(turn_angle)
+            TurnLeft(ser, turn_angle)
 
-def biasedSendTurn(working_gradient, turn_direction):
+def biasedSendTurn(ser, working_gradient, turn_direction):
     if working_gradient is None:
         if turn_direction == "left": 
-            TurnLeft(45)
+            TurnLeft(ser, 45)
         if turn_direction == "right":
-            TurnRight(45)
+            TurnRight(ser, 5)
     else:
         gradient_angle = math.atan(working_gradient)
         if gradient_angle < 0:
             turn_angle = math.degrees(math.pi/2 + gradient_angle)
-            TurnRight(turn_angle)
+            TurnRight(ser, turn_angle)
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
-            TurnLeft(turn_angle)
+            TurnLeft(ser, turn_angle)

@@ -7,7 +7,8 @@ import time
 import math
 import sys
 import serial
-from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour, goStraight, TurnLeft, TurnRight, sendTurn
+from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask,
+findLargestContour, goStraight, TurnLeft, TurnRight, sendTurn
 # from sign_processing import signRecognise, sign_detected_script
 from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
 
@@ -42,7 +43,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     
     working_gradient = direction(blue_mask, yellow_mask)
     print(working_gradient)
-    # sendTurn(working_gradient)
+    sendTurn(ser, working_gradient)
     # cv.imshow("hsv", hsv_img)
     cv.imshow("original", img_resized)
     # cv.imshow("perspective shift", perspective_shifted)
@@ -52,7 +53,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # cv.imshow ("blue_edge", edge_blue)
     key = cv.waitKey(1) & 0xFF
     
-    rawCapture.truncate()
+    rawCapture.truncate(0)
     if key == ord("q"):
         break
 camera.close()
