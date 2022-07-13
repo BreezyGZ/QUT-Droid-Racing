@@ -4,7 +4,6 @@ import numpy as np
 import math
 import sys
 from matplotlib import pyplot as plt
-from pyparsing import match_previous_expr
 from functions import sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour
 from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD
 
@@ -61,7 +60,7 @@ def sign_detected_script(perspective_shift_view, sign_direction, edge_blue, edge
     while count > 0 and ser.inWaiting() > 0:
         sendTurn(direction(edge_used, edge_used))
         count -= 1
-
+    return
 
 big_contours = []
 for c in cnts_img:

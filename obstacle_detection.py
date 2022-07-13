@@ -6,7 +6,7 @@ import sys
 from matplotlib import pyplot as plt
 from pyparsing import match_previous_expr
 from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, findLargestContour
-from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, SIMILARITY_THRESHOLD, YELLOW_LOWER, YELLOW_UPPER, BLUE_LOWER, BLUE_UPPER, PURPLE_LOWER, PURPLE_UPPER
+from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_PURPLE, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_LINE, YELLOW_LOWER, YELLOW_UPPER, BLUE_LOWER, BLUE_UPPER, PURPLE_LOWER, PURPLE_UPPER
 
 """
 Pseudo-code:
@@ -24,6 +24,24 @@ hsv_img = cv.cvtColor(img_resized, cv.COLOR_BGR2HSV)
 blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
 yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
 purple_mask = cv.inRange(hsv_img, PURPLE_LOWER, PURPLE_UPPER)
+edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+block_edges = findLargestContour(purple_mask, CONTOUR_AREA_THRESHOLD_PURPLE)[0]
+
+if block_edges is None:
+    help = "help"
+obs_base = (findAverageX(block_edges, findMaxY(block_edges)), findMaxY(block_edges))
+
+if edge_blue is None:
+    distance_from_blue = 0
+else:
+    distance_from_blue = abs(obs_base[0] - findAverageX(edge_blue, obs_base[1]))
+
+if edge_yellow is None:
+    distance_from_yellow = 0
+else:
+    distance_from_yellow = abs(obs_base[0] - findAverageX(edge_yellow, obs_base[1]))
+
 
 cv.imshow("original", img_resized)
 cv.imshow("purple", purple_mask)

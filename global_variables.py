@@ -16,6 +16,7 @@ CONTOUR_AREA_THRESHOLD_BLACK = 1000
 CONTOUR_AREA_THRESHOLD_PURPLE = 500
 CONTOUR_AREA_THRESHOLD_LINE = 400
 SIMILARITY_THRESHOLD = 3.3
+DURATION_OF_TURN = 10
 
 sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
 sign_right = frameRescale(cv.imread("Photos/turn_right.png"), 0.15)
