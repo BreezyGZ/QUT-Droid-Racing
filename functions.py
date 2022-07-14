@@ -11,19 +11,19 @@ import RPi.GPIO as GPIO
 
 def goStraight(ser):
     print("Go straight")
-    ser.write('straight\n'.encode('utf-8'))
+    ser.write('S\n'.encode('utf-8'))
     ser.flushInput()
     return
 
 def TurnLeft(ser, angle):
     print(f"Turn left: {angle}")
-    ser.write('left\n'.encode('utf-8'))
+    ser.write('L\n'.encode('utf-8'))
     ser.flushInput()
     return
 
 def TurnRight(ser, angle):
     print(f"Turn right: {angle}")
-    ser.write('right\n'.encode('utf-8'))
+    ser.write('R\n'.encode('utf-8'))
     ser.flushInput()
     return
 

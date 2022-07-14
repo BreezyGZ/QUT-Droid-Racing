@@ -33,7 +33,7 @@ time.sleep(0.1)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # if ser.inWaiting() > 0:
-    time.sleep(0.2)
+    time.sleep(0.1)
     img = frame.array
     img_resized = frameRescale(img, 1)
     perspective_shifted = perspectiveShift(img_resized)
@@ -66,7 +66,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 #     cv.imshow("blue_mask", blue_mask)
     # cv.imshow ("yellow_edge", edge_yellow)
     # cv.imshow ("blue_edge", edge_blue)
-    cv.imshow("green_mask", green_mask)
+    # cv.imshow("green_mask", green_mask)
     key = cv.waitKey(1) & 0xFF
     
     rawCapture.truncate(0)
