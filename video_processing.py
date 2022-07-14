@@ -56,18 +56,25 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         # if object_detected: 
         #     obstacle_avoid_script()
 
-        working_gradient = direction(blue_mask, yellow_mask)
-        print(working_gradient)
-        sendTurn(ser, working_gradient)
-        # cv.imshow("hsv", hsv_img)
-        # cv.imshow("original", img_resized)
-        # cv.imshow("perspective shift", perspective_shifted)
-    #     cv.imshow("yellow_mask", yellow_mask)
-    #     cv.imshow("blue_mask", blue_mask)
-        # cv.imshow ("yellow_edge", edge_yellow)
-        # cv.imshow ("blue_edge", edge_blue)
-        # cv.imshow("green_mask", green_mask)
-        key = cv.waitKey(1) & 0xFF
+    working_gradient = direction(blue_mask, yellow_mask)
+    print(working_gradient)
+    sendTurn(ser, working_gradient)
+    
+    # if detect green, break after a certain time
+    if ():
+        goStraight(ser)
+        time.sleep(10)
+        break
+
+    # cv.imshow("hsv", hsv_img)
+    # cv.imshow("original", img_resized)
+    # cv.imshow("perspective shift", perspective_shifted)
+#     cv.imshow("yellow_mask", yellow_mask)
+#     cv.imshow("blue_mask", blue_mask)
+    # cv.imshow ("yellow_edge", edge_yellow)
+    # cv.imshow ("blue_edge", edge_blue)
+    # cv.imshow("green_mask", green_mask)
+    key = cv.waitKey(1) & 0xFF
     
         rawCapture.truncate(0)
         if key == ord("q"):
