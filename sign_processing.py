@@ -53,7 +53,7 @@ def signRecognise(frame):
         return None
     match_left = cv.matchShapes(CONTOUR_LEFT, contour_max, 1, 0.0)
     match_right = cv.matchShapes(CONTOUR_RIGHT, contour_max, 1, 0.0)
-    if match_left < min(match_right, SIMILARITY_THRESHOLD)):
+    if match_left < min(match_right, SIMILARITY_THRESHOLD):
         return "left"
     elif match_right < min(match_left, SIMILARITY_THRESHOLD):
         return "right"
