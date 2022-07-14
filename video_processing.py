@@ -57,10 +57,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # maybe write something more complex lol?
     # could run all straight turns as left/right turns for a few loops?
     if is_sign is not None:
+        print("Sign direction = " + is_sign)
         sign_detected_script(ser, is_sign, blue_mask, yellow_mask)
     
-    # if object_detected: 
-    #     obstacle_avoid_script()
+    if object_distance < 60: 
+        obstacle_avoid_script()
 
     working_gradient = direction(blue_mask, yellow_mask)
     print(working_gradient)
