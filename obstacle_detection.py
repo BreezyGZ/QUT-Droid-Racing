@@ -35,11 +35,11 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
         return
     obs_base = (findAverageX(purple_mask, findMaxY(purple_mask)), findMaxY(purple_mask))
 
-    if blue_mask is None:
+    if cv.findNonZero(blue_mask) is None:
         distance_from_blue = 0
     else:
         distance_from_blue = abs(obs_base[0] - findAverageX(blue_mask, obs_base[1]))
-    if yellow_mask is None:
+    if cv.findNonZero(yellow_mask) is None:
         distance_from_yellow = 0
     else:
         distance_from_yellow = abs(obs_base[0] - findAverageX(yellow_mask, obs_base[1]))
