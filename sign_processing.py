@@ -72,7 +72,7 @@ def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
         edge_used = edge_yellow
     
     count = DURATION_OF_TURN
-    while count > 0
+    while count > 0:
         biasedSendTurn(ser, direction(edge_used, edge_used), sign_direction)
         count -= 1
     return
