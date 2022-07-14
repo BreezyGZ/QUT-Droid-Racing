@@ -7,7 +7,7 @@ import sys
 # from picamera import PiCamera
 import time
 import serial
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 def goStraight(ser):
     print("Go straight")
@@ -118,6 +118,12 @@ def direction(blue_mask, yellow_mask):
         return -1
     elif cv.findNonZero(blue_mask) is None:
         return 1
+    else:
+        return (gradientOfMask(blue_mask) + gradientOfMask(yellow_mask))/2
+
+def direction_obstacle(blue_mask, yellow_mask):
+    if cv.findNonZero(blue_mask) is None or cv.findNonZero(yellow_mask) is None:
+        return None
     else:
         return (gradientOfMask(blue_mask) + gradientOfMask(yellow_mask))/2
 
