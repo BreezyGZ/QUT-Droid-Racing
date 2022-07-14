@@ -7,6 +7,10 @@ import sys
 # from picamera import PiCamera
 import time
 import serial
+import RPi.GPIO as GPIO
+
+from global_variables import GPIO_ECHO, GPIO_TRIGGER
+
 def goStraight(ser):
     print("Go straight")
     ser.write('straight\n'.encode('utf-8'))
@@ -103,15 +107,15 @@ def gradientOfMask(mask):
     return (min[1] - max[1])/(min[0] - max[0])
 
 # returns the gradient of the direction the car will steer, None if no yellow or blue can be seen
-def direction(mask_1, mask_2):
-    if cv.findNonZero(mask_1) is None and cv.findNonZero(mask_2) is None:
+def direction(blue_mask, yellow_mask):
+    if cv.findNonZero(blue_mask) is None and cv.findNonZero(yellow_mask) is None:
         return None
-    elif cv.findNonZero(mask_2) is None:
-        return gradientOfMask(mask_1)
-    elif cv.findNonZero(mask_1) is None:
-        return gradientOfMask(mask_2)
+    elif cv.findNonZero(yellow_mask) is None:
+        return -1
+    elif cv.findNonZero(blue_mask) is None:
+        return 1
     else:
-        return (gradientOfMask(mask_1) + gradientOfMask(mask_2))/2
+        return (gradientOfMask(blue_mask) + gradientOfMask(yellow_mask))/2
 
 # def findLargestContour(mask, area_threshold):
 #     blank_image = np.zeros((mask.shape[0], mask.shape[1], 3), dtype = "uint8")
@@ -157,3 +161,32 @@ def biasedSendTurn(ser, working_gradient, turn_direction):
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
             TurnLeft(ser, turn_angle)
+
+# finds the distance b/w the ultrasonic sensor and in front
+def distance():
+    # set Trigger to HIGH
+    GPIO.output(GPIO_TRIGGER, True)
+ 
+    # set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    GPIO.output(GPIO_TRIGGER, False)
+ 
+    StartTime = time.time()
+    StopTime = time.time()
+ 
+    # save StartTime
+    while GPIO.input(GPIO_ECHO) == 0:
+        StartTime = time.time()
+ 
+    # save time of arrival
+    while GPIO.input(GPIO_ECHO) == 1:
+        StopTime = time.time()
+ 
+    # time difference between start and arrival
+    TimeElapsed = StopTime - StartTime
+    # multiply with the sonic speed (34300 cm/s)
+    # and divide by 2, because there and back
+    distance = (TimeElapsed * 34300) / 2
+ 
+    return distance
+    

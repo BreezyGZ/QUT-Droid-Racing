@@ -26,7 +26,7 @@ yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
 # if is_sign is not None:
 #     sign_detected_script(is_sign, edge_blue, edge_yellow)
 
-# working_gradient = direction(blue_mask, yellow_mask)
+working_gradient = direction(blue_mask, yellow_mask)
 # sendTurn(working_gradient)
 # cv.imshow("hsv", hsv_img)
 cv.imshow("original", img_resized)

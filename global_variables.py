@@ -11,6 +11,11 @@ PURPLE_UPPER = np.array([155, 255, 255])
 YELLOW_LOWER = np.array([15, 93, 15])
 YELLOW_UPPER = np.array([45, 255, 255])
 BLACK_THRESHOLD = 20
+
+#set GPIO Pins
+GPIO_TRIGGER = 18
+GPIO_ECHO = 24
+
 # ??? Will need to test these parameters
 CONTOUR_AREA_THRESHOLD_BLACK = 1000
 CONTOUR_AREA_THRESHOLD_PURPLE = 500
