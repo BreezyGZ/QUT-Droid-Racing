@@ -69,7 +69,7 @@ def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
     while count > 0:
         biasedSendTurn(ser, direction(edge_blue, edge_yellow), sign_direction)
         count -= 1
-        time.sleep(0.05)
+        time.sleep(0.1)
     return
 
 # big_contours = []
