@@ -23,8 +23,9 @@ GPIO_ECHO = 24
 CONTOUR_AREA_THRESHOLD_BLACK = 4000
 CONTOUR_AREA_THRESHOLD_PURPLE = 500
 CONTOUR_AREA_THRESHOLD_LINE = 400
-SIMILARITY_THRESHOLD = 3.3
-DURATION_OF_TURN = 10
+SIMILARITY_THRESHOLD = 2
+DURATION_OF_TURN = 5
+GREEN_STOP_THRESHOLD = 10000
 
 sign_left = crop(frameRescale(cv.imread("Photos/sign_left_still_.jpg"), 0.15))
 sign_right = crop(frameRescale(cv.imread("Photos/sign_right_still_.jpg"), 0.15))
@@ -46,5 +47,3 @@ for contour in contours_right:
 
 CONTOUR_LEFT = max_contour_left
 CONTOUR_RIGHT = max_contour_right
-print(cv.contourArea(CONTOUR_LEFT))
-print(cv.contourArea(CONTOUR_RIGHT))
