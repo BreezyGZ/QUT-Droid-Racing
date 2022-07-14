@@ -60,5 +60,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     rawCapture.truncate(0)
     if key == ord("q"):
         break
+
+ser.write('kill\n'.encode('utf-8'))
+ser.flushInput()
 camera.close()
 # cv.destroyAllWindows()
