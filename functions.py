@@ -128,8 +128,8 @@ def direction(mask_1, mask_2):
 #     return (blank_image, largest_area)
 
 def sendTurn(ser, working_gradient):
-    while ser.inWaiting() <= 0:
-        time.sleep(0.05)
+    # while ser.inWaiting() <= 0:
+    #     time.sleep(0.05)
     if working_gradient is None:
             goStraight(ser)
     else:
@@ -142,8 +142,8 @@ def sendTurn(ser, working_gradient):
             TurnLeft(ser, turn_angle)
 
 def biasedSendTurn(ser, working_gradient, turn_direction):
-    while ser.inWaiting() <= 0:
-        time.sleep(0.05)
+    # while ser.inWaiting() <= 0:
+    #     time.sleep(0.05)
     if working_gradient is None:
         if turn_direction == "left": 
             TurnLeft(ser, 45)
