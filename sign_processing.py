@@ -6,6 +6,7 @@ import sys
 from matplotlib import pyplot as plt
 from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, crop
 from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD, CONTOUR_LEFT, CONTOUR_RIGHT
+import time
 
 # sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
 # sign_right = frameRescale(cv.imread("Photos/turn_right.png"), 0.15)
@@ -68,6 +69,7 @@ def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
     while count > 0:
         biasedSendTurn(ser, direction(edge_blue, edge_yellow), sign_direction)
         count -= 1
+        time.sleep(0.05)
     return
 
 # big_contours = []

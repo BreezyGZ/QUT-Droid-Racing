@@ -61,7 +61,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         sign_detected_script(ser, is_sign, blue_mask, yellow_mask)
     
     if object_distance < 60: 
-        obstacle_avoid_script()
+        obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
 
     working_gradient = direction(blue_mask, yellow_mask)
     print(working_gradient)

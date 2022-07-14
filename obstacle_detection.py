@@ -8,6 +8,7 @@ import sys
 from matplotlib import pyplot as plt
 from functions import TurnLeft, TurnRight, biasedSendTurn, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask
 from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_PURPLE, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_LINE, YELLOW_LOWER, YELLOW_UPPER, BLUE_LOWER, BLUE_UPPER, PURPLE_LOWER, PURPLE_UPPER
+import time
 
 """
 Pseudo-code:
@@ -53,10 +54,12 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
     else:
         if distance_diff > 0:
             while object_distance <= 35:
+                time.sleep(0.05)
                 TurnLeft(ser, 45)
         if distance_diff <= 0:
             while object_distance <= 35:
                 TurnRight(ser, 45)
+                time.sleep(0.05)
     return
 
 
