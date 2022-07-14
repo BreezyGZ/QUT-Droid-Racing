@@ -42,7 +42,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
     yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
     green_mask = cv.inRange(hsv_img, GREEN_LOWER, GREEN_UPPER)
-    object_distance = distance()
+    object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
     print("Object distance: %.1f" % object_distance)
     # edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
     # edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]

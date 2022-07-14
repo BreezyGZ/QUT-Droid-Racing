@@ -9,8 +9,6 @@ import time
 import serial
 import RPi.GPIO as GPIO
 
-from global_variables import GPIO_ECHO, GPIO_TRIGGER
-
 def goStraight(ser):
     print("Go straight")
     ser.write('straight\n'.encode('utf-8'))
@@ -163,23 +161,23 @@ def biasedSendTurn(ser, working_gradient, turn_direction):
             TurnLeft(ser, turn_angle)
 
 # finds the distance b/w the ultrasonic sensor and in front
-def distance():
+def distance(gpio_trigger, gpio_echo):
     # set Trigger to HIGH
-    GPIO.output(GPIO_TRIGGER, True)
+    GPIO.output(gpio_trigger, True)
  
     # set Trigger after 0.01ms to LOW
     time.sleep(0.00001)
-    GPIO.output(GPIO_TRIGGER, False)
+    GPIO.output(gpio_trigger, False)
  
     StartTime = time.time()
     StopTime = time.time()
  
     # save StartTime
-    while GPIO.input(GPIO_ECHO) == 0:
+    while GPIO.input(gpio_echo) == 0:
         StartTime = time.time()
  
     # save time of arrival
-    while GPIO.input(GPIO_ECHO) == 1:
+    while GPIO.input(gpio_echo) == 1:
         StopTime = time.time()
  
     # time difference between start and arrival
