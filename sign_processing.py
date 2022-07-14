@@ -60,9 +60,9 @@ def signRecognise(frame):
 
 def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
     if sign_direction == "left":
-        TurnLeft(45)
+        TurnLeft(ser, 45)
     if sign_direction == "right":
-        TurnRight(45)
+        TurnRight(ser, 45)
     
     count = DURATION_OF_TURN
     while count > 0:
