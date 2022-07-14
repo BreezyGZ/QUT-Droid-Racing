@@ -4,7 +4,7 @@ import numpy as np
 import math
 import sys
 from matplotlib import pyplot as plt
-from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask
+from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, crop
 from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD, CONTOUR_LEFT, CONTOUR_RIGHT
 
 # sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
@@ -33,30 +33,32 @@ from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURA
 # black_mask = cv.inRange(greyscale, 0, BLACK_THRESHOLD)
 # cnts_left, hierarchy_left = cv.findContours(sign_left_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
-def signRecognise(frame, contour_sign_left, contour_sign_right, black_threshold, similarity_threshold):
+def signRecognise(frame, contour_sign_left, contour_sign_right):
     """
     signRecognise searches an image for a black object over the size of a given threshold, and compares that 
     image to contours of the sign for left and right. If the object looks similar to one of the signs,
     it returns a string "left" or "right" respectively. If no black objects big enough are detected, or if the 
     object doesn't look similar enough it returns None.
     """
-    blur = cv.medianBlur(frame, 9)
+    blur = crop(cv.medianBlur(frame, 5))
     greyscale = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
-    black_mask = cv.inRange(greyscale, 0, black_threshold)
+    black_mask = cv.inRange(greyscale, 0, BLACK_THRESHOLD)
     cnts_img = cv.findContours(black_mask)[0]
     contour_max = None
     contour_area = 0
     for c in cnts_img:
         area = cv.contourArea(c)
+        print(area)
         if area > max(CONTOUR_AREA_THRESHOLD_BLACK, contour_area):
             contour_max = c
             contour_area = area
 
     if contour_max is None:
         return None
-    match_left = cv.matchShapes(contour_sign_left, contour_max[0], 1, 0.0)
-    match_right = cv.matchShapes(contour_sign_right, contour_max[0], 1, 0.0)
-    
+    match_left = cv.matchShapes(CONTOUR_LEFT, contour_max[0], 1, 0.0)
+    match_right = cv.matchShapes(CONTOUR_RIGHT, contour_max[0], 1, 0.0)
+    print(match_left)
+    print(match_right)
     if (match_left < match_right):
         return "left"
     elif (match_right < match_left):

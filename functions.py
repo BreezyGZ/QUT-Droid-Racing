@@ -138,16 +138,19 @@ def direction(blue_mask, yellow_mask):
 def sendTurn(ser, working_gradient):
     # while ser.inWaiting() <= 0:
     #     time.sleep(0.05)
-    if working_gradient is None:
-            goStraight(ser)
-    else:
+    if working_gradient is not None:
         gradient_angle = math.atan(working_gradient)
         if gradient_angle < 0:
             turn_angle = math.degrees(math.pi/2 + gradient_angle)
-            TurnRight(ser, turn_angle)
-        else:
+            if turn_angle > 10:
+                TurnRight(ser, turn_angle)
+                return
+        else: 
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
-            TurnLeft(ser, turn_angle)
+            if turn_angle > 10:
+                TurnLeft(ser, turn_angle)
+                return
+    goStraight(ser)
 
 def biasedSendTurn(ser, working_gradient, turn_direction):
     # while ser.inWaiting() <= 0:
@@ -158,16 +161,19 @@ def biasedSendTurn(ser, working_gradient, turn_direction):
             turn_angle = math.degrees(math.pi/2 + gradient_angle)
             if turn_angle > 10:
                 TurnRight(ser, turn_angle)
+                return
             
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
             if turn_angle > 10:
                 TurnLeft(ser, turn_angle)
-    else:
-        if turn_direction == "left": 
-            TurnLeft(ser, 45)
-        if turn_direction == "right":
-            TurnRight(ser, 45)
+                return
+    if turn_direction == "left": 
+        TurnLeft(ser, 45)
+        return
+    if turn_direction == "right":
+        TurnRight(ser, 45)
+        return
 
 # finds the distance b/w the ultrasonic sensor and in front
 def distance(gpio_trigger, gpio_echo):
@@ -196,4 +202,15 @@ def distance(gpio_trigger, gpio_echo):
     distance = (TimeElapsed * 34300) / 2
  
     return distance
+
+def crop(frame):
+    frame_x = frame.shape[1]
+    frame_y = frame.shape[0]
+    coords = np.float32([
+        [frame_x * (0.2), frame_y * (0.5)], [frame_x * (0.8), frame_y * (0.5)], 
+        [frame_x * (0.2), frame_y], [frame_x, frame_y]
+        ])
+    transformed = np.float32([[0 ,0], [frame_x, 0], [0, frame_y], [frame_x, frame_y]])
     
+    matrix =  cv.getPerspectiveTransform(coords, transformed)
+    return cv.warpPerspective(frame, matrix, (frame_x, frame_y))
