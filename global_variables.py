@@ -20,7 +20,7 @@ DURATION_OF_TURN = 10
 
 sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
 sign_right = frameRescale(cv.imread("Photos/turn_right.png"), 0.15)
-sign_left_mask = cv.bitwise_not(cv.cvtColor(sign_left, cv.COLOR_BGR2GRAY))
-sign_right_mask = cv.bitwise_not(cv.cvtColor(sign_right, cv.COLOR_BGR2GRAY))
+sign_left_mask = cv.inRange(sign_left, 0, BLACK_THRESHOLD)
+sign_right_mask = cv.inRange(sign_right, 0, BLACK_THRESHOLD)
 CONTOUR_LEFT = cv.findContours(sign_left_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0][0]
 CONTOUR_RIGHT = cv.findContours(sign_right_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0][0]

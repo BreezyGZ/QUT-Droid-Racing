@@ -57,45 +57,45 @@ def signRecognise(frame, contour_sign_left, contour_sign_right, black_threshold,
     match_left = cv.matchShapes(contour_sign_left, contour_max[0], 1, 0.0)
     match_right = cv.matchShapes(contour_sign_right, contour_max[0], 1, 0.0)
     
-    if (match_left < match_right and match_left < similarity_threshold):
+    if (match_left < match_right):
         return "left"
-    elif (match_right < match_left and match_right < similarity_threshold):
+    elif (match_right < match_left):
         return "right"
     return None
 
-# def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
-#     if sign_direction == "left":
-#         TurnLeft(45)
-#         edge_used = edge_blue
-#     if sign_direction == "right":
-#         TurnRight(45)
-#         edge_used = edge_yellow
+def sign_detected_script(ser, sign_direction, edge_blue, edge_yellow):
+    if sign_direction == "left":
+        TurnLeft(45)
+        edge_used = edge_blue
+    if sign_direction == "right":
+        TurnRight(45)
+        edge_used = edge_yellow
     
-#     count = DURATION_OF_TURN
-#     while count > 0 and ser.inWaiting() > 0:
-#         biasedSendTurn(direction(edge_used, edge_used), sign_direction)
-#         count -= 1
-#     return
+    count = DURATION_OF_TURN
+    while count > 0
+        biasedSendTurn(ser, direction(edge_used, edge_used), sign_direction)
+        count -= 1
+    return
 
-# # big_contours = []
-# # for c in cnts_img:
-# #     area = cv.contourArea(c)
-# #     if area > CONTOUR_AREA_THRESHOLD:
-# #         big_contours.append(c)
+# big_contours = []
+# for c in cnts_img:
+#     area = cv.contourArea(c)
+#     if area > CONTOUR_AREA_THRESHOLD:
+#         big_contours.append(c)
 
-# # match_left = cv.matchShapes(contour_left, big_contours[0], 1, 0.0)
-# # match_right = cv.matchShapes(contour_right, big_contours[0], 1, 0.0)
-# # print(match_left)
-# # print(match_right)
-# # # contours,hierarchy = cv.findContours(black_mask,2,1)
-# # # cnt1 = contours[0]
-# # # contours,hierarchy = cv.findContours(sign_left_mask,2,1)
-# # # cnt2 = contours[0]
+# match_left = cv.matchShapes(contour_left, big_contours[0], 1, 0.0)
+# match_right = cv.matchShapes(contour_right, big_contours[0], 1, 0.0)
+# print(match_left)
+# print(match_right)
+# # contours,hierarchy = cv.findContours(black_mask,2,1)
+# # cnt1 = contours[0]
+# # contours,hierarchy = cv.findContours(sign_left_mask,2,1)
+# # cnt2 = contours[0]
 
-# # # ret = cv.matchShapes(cnt1,cnt2,1,0.0)
-# # cv.drawContours(img_resized, [big_contours[0]], -1, (0,255,0), 3)
-# # cv.imshow("original", img_resized)
-# # cv.imshow("black_mask", black_mask)
+# # ret = cv.matchShapes(cnt1,cnt2,1,0.0)
+# cv.drawContours(img_resized, [big_contours[0]], -1, (0,255,0), 3)
+# cv.imshow("original", img_resized)
+# cv.imshow("black_mask", black_mask)
 
-# # cv.waitKey(10000)
-# # cv.destroyAllWindows()
+# cv.waitKey(10000)
+# cv.destroyAllWindows()

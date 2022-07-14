@@ -28,10 +28,10 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     img = frame.array
     img_resized = frameRescale(img, 1)
     perspective_shifted = perspectiveShift(img_resized)
-#     hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
-#     
-#     blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
-#     yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
+    hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
+    
+    blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
+    yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
 
     # edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
     # edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
@@ -45,12 +45,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # if object_detected: 
     #     obstacle_avoid_script()
 
-#     working_gradient = direction(blue_mask, yellow_mask)
-#     print(working_gradient)
-#     sendTurn(ser, working_gradient)
+    working_gradient = direction(blue_mask, yellow_mask)
+    print(working_gradient)
+    sendTurn(ser, working_gradient)
     # cv.imshow("hsv", hsv_img)
-    cv.imshow("original", img_resized)
-    cv.imshow("perspective shift", perspective_shifted)
+    # cv.imshow("original", img_resized)
+    # cv.imshow("perspective shift", perspective_shifted)
 #     cv.imshow("yellow_mask", yellow_mask)
 #     cv.imshow("blue_mask", blue_mask)
     # cv.imshow ("yellow_edge", edge_yellow)

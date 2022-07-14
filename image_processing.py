@@ -6,8 +6,8 @@ import sys
 from functions import frameRescale, sendTurn, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, goStraight, TurnLeft, TurnRight
 from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
 
-img = cv.imread('Photos/test/test_right.jpg')
-img_resized = frameRescale(img, 0.20)
+img = cv.imread('Photos/left_still_.jpg')
+img_resized = frameRescale(img, 0.2)
 perspective_shifted = perspectiveShift(img_resized)
 hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
 
@@ -26,17 +26,17 @@ yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
 # if is_sign is not None:
 #     sign_detected_script(is_sign, edge_blue, edge_yellow)
 
-working_gradient = direction(blue_mask, yellow_mask)
-sendTurn(working_gradient)
-cv.imshow("hsv", hsv_img)
+# working_gradient = direction(blue_mask, yellow_mask)
+# sendTurn(working_gradient)
+# cv.imshow("hsv", hsv_img)
 cv.imshow("original", img_resized)
-# cv.imshow("perspective shift", perspective_shifted)
-cv.imshow("yellow_mask", yellow_mask)
-cv.imshow("blue_mask", blue_mask)
+cv.imshow("perspective shift", perspective_shifted)
+# cv.imshow("yellow_mask", yellow_mask)
+# cv.imshow("blue_mask", blue_mask)
 # cv.imshow ("yellow_edge", edge_yellow)
 # cv.imshow ("blue_edge", edge_blue)
 
 # cv.destroyAllWindows()
 
-cv.waitKey(40000)
+cv.waitKey(20000)
 cv.destroyAllWindows()

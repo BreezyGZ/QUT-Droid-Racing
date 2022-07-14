@@ -57,8 +57,8 @@ def perspectiveShift(frame):
     frame_x = frame.shape[1]
     frame_y = frame.shape[0]
     coords = np.float32([
-        [frame_x * 0.25, frame_y * 0.5], [frame_x * 0.75, frame_y * 0.5], 
-        [0, frame_y * 0.75], [frame_x, frame_y * 0.75]
+        [frame_x * (4/9), frame_y * (3/6.5)], [frame_x * (6/9), frame_y * (3.2/6.5)], 
+        [0, frame_y], [frame_x, frame_y]
         ])
     transformed = np.float32([[0 ,0], [frame_x, 0], [0, frame_y], [frame_x, frame_y]])
     
@@ -128,8 +128,8 @@ def direction(mask_1, mask_2):
 #     return (blank_image, largest_area)
 
 def sendTurn(ser, working_gradient):
-#     while not (ser.inWaiting() > 0):
-#         time.sleep(0.05)
+    while ser.inWaiting() <= 0:
+        time.sleep(0.05)
     if working_gradient is None:
             goStraight(ser)
     else:
