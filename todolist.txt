@@ -1,0 +1,2 @@
+1. calibrate perspectiveShift in functions
+2. take picture of sign turn from the perspective of the droid

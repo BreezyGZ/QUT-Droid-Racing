@@ -18,11 +18,6 @@ if purple detected and ultra sonic detected:
     if distance(purple, blue) < distance(purple, yellow):
         
 """
-<<<<<<< HEAD
-
-=======
-# 
->>>>>>> 275555df02cb3819ca870ab930610875589ff249
 # img = cv.imread("Photos/palette_wheel.png")
 # img_resized = frameRescale(img, 0.5)
 # hsv_img = cv.cvtColor(img_resized, cv.COLOR_BGR2HSV)
