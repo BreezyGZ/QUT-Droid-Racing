@@ -32,29 +32,29 @@ ser.reset_input_buffer()
 time.sleep(0.11)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-    if ser.inWaiting() > 0:
-    # time.sleep(0.1)
-        img = frame.array
-        img_resized = frameRescale(img, 1)
-        perspective_shifted = perspectiveShift(img_resized)
-        hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
-        
-        blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
-        yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
-        green_mask = cv.inRange(hsv_img, GREEN_LOWER, GREEN_UPPER)
-        object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
-        print("Object distance: %.1f" % object_distance)
-        # edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
-        # edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+    # if ser.inWaiting() > 0:
+    time.sleep(0.11)
+    img = frame.array
+    img_resized = frameRescale(img, 1)
+    perspective_shifted = perspectiveShift(img_resized)
+    hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
+    
+    blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
+    yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
+    green_mask = cv.inRange(hsv_img, GREEN_LOWER, GREEN_UPPER)
+    object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
+    print("Object distance: %.1f" % object_distance)
+    # edge_yellow = findLargestContour(yellow_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
+    # edge_blue = findLargestContour(blue_mask, CONTOUR_AREA_THRESHOLD_LINE)[0]
 
-        # is_sign = signRecognise(img_resized, CONTOUR_LEFT, CONTOUR_RIGHT, BLACK_THRESHOLD, SIMILARITY_THRESHOLD)
-        # # maybe write something more complex lol?
-        # # could run all straight turns as left/right turns for a few loops?
-        # if is_sign is not None:
-        #     sign_detected_script(ser, is_sign, blue_mask, yellow_mask)
-        
-        # if object_detected: 
-        #     obstacle_avoid_script()
+    # is_sign = signRecognise(img_resized, CONTOUR_LEFT, CONTOUR_RIGHT, BLACK_THRESHOLD, SIMILARITY_THRESHOLD)
+    # # maybe write something more complex lol?
+    # # could run all straight turns as left/right turns for a few loops?
+    # if is_sign is not None:
+    #     sign_detected_script(ser, is_sign, blue_mask, yellow_mask)
+    
+    # if object_detected: 
+    #     obstacle_avoid_script()
 
     working_gradient = direction(blue_mask, yellow_mask)
     print(working_gradient)
@@ -76,9 +76,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # cv.imshow("green_mask", green_mask)
     key = cv.waitKey(1) & 0xFF
     
-        rawCapture.truncate(0)
-        if key == ord("q"):
-            break
+    rawCapture.truncate(0)
+    if key == ord("q"):
+        break
 
 ser.write('kill\n'.encode('utf-8'))
 ser.flushInput()
