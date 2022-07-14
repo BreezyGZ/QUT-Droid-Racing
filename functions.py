@@ -7,7 +7,7 @@ import sys
 # from picamera import PiCamera
 import time
 import serial
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 def goStraight(ser):
     print("Go straight")
