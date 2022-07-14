@@ -29,7 +29,7 @@ rawCapture = PiRGBArray(camera, size=(832, 624))
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 ser.reset_input_buffer()
 
-time.sleep(0.1)
+time.sleep(0.11)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     if ser.inWaiting() > 0:
@@ -61,10 +61,10 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     sendTurn(ser, working_gradient)
     
     # if detect green, break after a certain time
-    if ():
-        goStraight(ser)
-        time.sleep(10)
-        break
+    # if ():
+    #     goStraight(ser)
+    #     time.sleep(10)
+    #     break
 
     # cv.imshow("hsv", hsv_img)
     # cv.imshow("original", img_resized)

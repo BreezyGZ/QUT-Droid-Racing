@@ -16,12 +16,18 @@ def goStraight(ser):
     return
 
 def TurnLeft(ser, angle):
+    if angle < 10:
+        goStraight(ser)
+        return
     print(f"Turn left: {angle}")
     ser.write('L\n'.encode('utf-8'))
     ser.flushInput()
     return
 
 def TurnRight(ser, angle):
+    if angle < 10:
+        goStraight(ser)
+        return
     print(f"Turn right: {angle}")
     ser.write('R\n'.encode('utf-8'))
     ser.flushInput()
@@ -146,19 +152,22 @@ def sendTurn(ser, working_gradient):
 def biasedSendTurn(ser, working_gradient, turn_direction):
     # while ser.inWaiting() <= 0:
     #     time.sleep(0.05)
-    if working_gradient is None:
-        if turn_direction == "left": 
-            TurnLeft(ser, 45)
-        if turn_direction == "right":
-            TurnRight(ser, 5)
-    else:
+    if working_gradient is not None:
         gradient_angle = math.atan(working_gradient)
         if gradient_angle < 0:
             turn_angle = math.degrees(math.pi/2 + gradient_angle)
-            TurnRight(ser, turn_angle)
+            if turn_angle > 10:
+                TurnRight(ser, turn_angle)
+            
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
-            TurnLeft(ser, turn_angle)
+            if turn_angle > 10:
+                TurnLeft(ser, turn_angle)
+    else:
+        if turn_direction == "left": 
+            TurnLeft(ser, 45)
+        if turn_direction == "right":
+            TurnRight(ser, 45)
 
 # finds the distance b/w the ultrasonic sensor and in front
 def distance(gpio_trigger, gpio_echo):
