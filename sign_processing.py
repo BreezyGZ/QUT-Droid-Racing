@@ -5,7 +5,7 @@ import math
 import sys
 from matplotlib import pyplot as plt
 from functions import biasedSendTurn, sendTurn, TurnLeft, TurnRight, goStraight, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, crop
-from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD, CONTOUR_LEFT, CONTOUR_RIGHT
+from global_variables import BLACK_LOWER, BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, DURATION_OF_TURN, SIMILARITY_THRESHOLD, CONTOUR_LEFT, CONTOUR_RIGHT
 import time
 
 # sign_left = frameRescale(cv.imread("Photos/turn_left.png"), 0.15)
@@ -36,7 +36,7 @@ def signRecognise(frame):
     """
     blur = crop(cv.medianBlur(frame, 5))
     greyscale = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
-    black_mask = cv.inRange(greyscale, 0, BLACK_THRESHOLD)
+    black_mask = cv.inRange(greyscale, BLACK_LOWER, BLACK_THRESHOLD)
     # cv.imshow("black_mask", black_mask)
     # cv.waitKey(5000)
     # cv.destroyAllWindows()
