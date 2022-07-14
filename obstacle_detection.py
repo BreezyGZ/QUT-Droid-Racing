@@ -47,21 +47,21 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
     distance_diff = distance_from_blue - distance_from_yellow
     if object_distance > 35:
         if distance_diff > 0:
-            biasedSendTurn(ser, direction(blue_mask, yellow_mask), "left")
+            biasedSendTurn(ser, direction(blue_mask, blue_mask), "left")
         if distance_diff <= 0:
-            biasedSendTurn(ser, direction(blue_mask, yellow_mask), "right")
+            biasedSendTurn(ser, direction(yellow_mask, yellow_mask), "right")
 
     else:
         if distance_diff > 0:
             while object_distance <= 35:
                 object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
-                time.sleep(0.05)
+                time.sleep(0.1)
                 TurnLeft(ser, 45)
         if distance_diff <= 0:
             while object_distance <= 35:
                 object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
                 TurnRight(ser, 45)
-                time.sleep(0.05)
+                time.sleep(0.1)
     return
 
 
