@@ -36,9 +36,9 @@ def signRecognise(frame):
     blur = crop(cv.medianBlur(frame, 5))
     greyscale = cv.cvtColor(blur, cv.COLOR_BGR2GRAY)
     black_mask = cv.inRange(greyscale, 0, BLACK_THRESHOLD)
-    cv.imshow("black_mask", black_mask)
-    cv.waitKey(5000)
-    cv.destroyAllWindows()
+    # cv.imshow("black_mask", black_mask)
+    # cv.waitKey(5000)
+    # cv.destroyAllWindows()
     cnts_img = cv.findContours(black_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
     contour_max = None
     contour_area = 0
