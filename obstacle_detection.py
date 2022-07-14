@@ -47,9 +47,9 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
     distance_diff = distance_from_blue - distance_from_yellow
     if object_distance > 35:
         if distance_diff > 0:
-            biasedSendTurn(ser, direction(blue_mask, yellow_mask), "left")
-        if distance_diff <= 0:
             biasedSendTurn(ser, direction(blue_mask, yellow_mask), "right")
+        if distance_diff <= 0:
+            biasedSendTurn(ser, direction(blue_mask, yellow_mask), "left")
 
     else:
         if distance_diff > 0:
