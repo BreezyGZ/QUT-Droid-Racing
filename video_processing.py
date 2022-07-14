@@ -34,7 +34,7 @@ time.sleep(0.1)
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # if ser.inWaiting() > 0:
     
-    time.sleep(0.05)
+    time.sleep(0.12)
     img = frame.array
     img_resized = frameRescale(img, 1)
     perspective_shifted = perspectiveShift(img_resized)
