@@ -10,6 +10,8 @@ PURPLE_LOWER = np.array([135, 93, 15])
 PURPLE_UPPER = np.array([155, 255, 255])
 YELLOW_LOWER = np.array([15, 93, 15])
 YELLOW_UPPER = np.array([45, 255, 255])
+GREEN_LOWER = np.array([40, 40, 40])
+GREEN_UPPER = np.array([70, 255, 255])
 BLACK_THRESHOLD = 20
 # ??? Will need to test these parameters
 CONTOUR_AREA_THRESHOLD_BLACK = 1000
