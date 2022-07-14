@@ -6,8 +6,8 @@ import numpy as np
 import math
 import sys
 from matplotlib import pyplot as plt
-from functions import TurnLeft, TurnRight, biasedSendTurn, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask
-from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_PURPLE, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_LINE, YELLOW_LOWER, YELLOW_UPPER, BLUE_LOWER, BLUE_UPPER, PURPLE_LOWER, PURPLE_UPPER
+from functions import TurnLeft, TurnRight, biasedSendTurn, frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, distance
+from global_variables import BLACK_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_PURPLE, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_LINE, YELLOW_LOWER, YELLOW_UPPER, BLUE_LOWER, BLUE_UPPER, PURPLE_LOWER, PURPLE_UPPER, GPIO_ECHO, GPIO_TRIGGER
 import time
 
 """
@@ -47,17 +47,19 @@ def obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
     distance_diff = distance_from_blue - distance_from_yellow
     if object_distance > 35:
         if distance_diff > 0:
-            biasedSendTurn(ser, direction(blue_mask, yellow_mask), "right")
-        if distance_diff <= 0:
             biasedSendTurn(ser, direction(blue_mask, yellow_mask), "left")
+        if distance_diff <= 0:
+            biasedSendTurn(ser, direction(blue_mask, yellow_mask), "right")
 
     else:
         if distance_diff > 0:
             while object_distance <= 35:
+                object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
                 time.sleep(0.05)
                 TurnLeft(ser, 45)
         if distance_diff <= 0:
             while object_distance <= 35:
+                object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
                 TurnRight(ser, 45)
                 time.sleep(0.05)
     return
