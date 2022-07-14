@@ -59,6 +59,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     working_gradient = direction(blue_mask, yellow_mask)
     print(working_gradient)
     sendTurn(ser, working_gradient)
+    
+    # if detect green, break after a certain time
+    if ():
+        goStraight(ser)
+        time.sleep(10)
+        break
+
     # cv.imshow("hsv", hsv_img)
     # cv.imshow("original", img_resized)
     # cv.imshow("perspective shift", perspective_shifted)
