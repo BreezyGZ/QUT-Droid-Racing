@@ -8,18 +8,18 @@ import math
 import sys
 import serial
 from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, goStraight, TurnLeft, TurnRight, sendTurn, distance
-from sign_processing import signRecognise, sign_detected_script
-from obstacle_detection import obstacle_avoid_script
-from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, GREEN_LOWER, GREEN_UPPER, GREEN_STOP_THRESHOLD, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT, GPIO_ECHO, GPIO_TRIGGER
+# from sign_processing import signRecognise, sign_detected_scripts
+# from obstacle_detection import obstacle_avoid_script
+from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, GREEN_LOWER, GREEN_UPPER, GREEN_STOP_THRESHOLD, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
 
 # Libraries and software controlling ultrasonic sensor
-import RPi.GPIO as GPIO
-#GPIO Mode (BOARD / BCM)
-GPIO.setmode(GPIO.BCM)
+# import RPi.GPIO as GPIO
+# #GPIO Mode (BOARD / BCM)
+# GPIO.setmode(GPIO.BCM)
  
-#set GPIO direction (IN / OUT)
-GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-GPIO.setup(GPIO_ECHO, GPIO.IN)
+# #set GPIO direction (IN / OUT)
+# GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+# GPIO.setup(GPIO_ECHO, GPIO.IN)
 
 camera = PiCamera()
 camera.resolution = (832, 624)
@@ -50,18 +50,18 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         ser.write('K\n'.encode('utf-8'))
         break
 
-    object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
-    print("Object distance: %.1f" % object_distance)
+    # object_distance = distance(GPIO_TRIGGER, GPIO_ECHO)
+    # print("Object distance: %.1f" % object_distance)
 
-    is_sign = signRecognise(img_resized)
+    # is_sign = signRecognise(img_resized)
     # maybe write something more complex lol?
     # could run all straight turns as left/right turns for a few loops?
-    if is_sign is not None:
-        print("Sign direction = " + is_sign)
-        sign_detected_script(ser, is_sign, blue_mask, yellow_mask)
+    # if is_sign is not None:
+    #     print("Sign direction = " + is_sign)
+    #     sign_detected_script(ser, is_sign, blue_mask, yellow_mask)
     
-    if object_distance < 60: 
-        obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
+    # if object_distance < 60: 
+    #     obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
 
     working_gradient = direction(blue_mask, yellow_mask)
     print(working_gradient)

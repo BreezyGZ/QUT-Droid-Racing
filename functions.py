@@ -7,7 +7,7 @@ import sys
 # from picamera import PiCamera
 import time
 import serial
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 def goStraight(ser):
     print("Go straight")
@@ -121,11 +121,11 @@ def direction(blue_mask, yellow_mask):
     else:
         return (gradientOfMask(blue_mask) + gradientOfMask(yellow_mask))/2
 
-def direction_obstacle(blue_mask, yellow_mask):
-    if cv.findNonZero(blue_mask) is None or cv.findNonZero(yellow_mask) is None:
-        return None
-    else:
-        return (gradientOfMask(blue_mask) + gradientOfMask(yellow_mask))/2
+# def direction_obstacle(blue_mask, yellow_mask):
+#     if cv.findNonZero(blue_mask) is None or cv.findNonZero(yellow_mask) is None:
+#         return None
+#     else:
+#         return (gradientOfMask(blue_mask) + gradientOfMask(yellow_mask))/2
 
 # def findLargestContour(mask, area_threshold):
 #     blank_image = np.zeros((mask.shape[0], mask.shape[1], 3), dtype = "uint8")
@@ -165,13 +165,13 @@ def biasedSendTurn(ser, working_gradient, turn_direction):
         gradient_angle = math.atan(working_gradient)
         if gradient_angle < 0:
             turn_angle = math.degrees(math.pi/2 + gradient_angle)
-            if turn_angle > 10:
+            if turn_angle > 45:
                 TurnRight(ser, turn_angle)
                 return
             
         else:
             turn_angle = math.degrees(math.pi/2 - gradient_angle)
-            if turn_angle > 10:
+            if turn_angle > 45:
                 TurnLeft(ser, turn_angle)
                 return
     if turn_direction == "left": 
@@ -182,32 +182,32 @@ def biasedSendTurn(ser, working_gradient, turn_direction):
         return
 
 # finds the distance b/w the ultrasonic sensor and in front
-def distance(gpio_trigger, gpio_echo):
-    # set Trigger to HIGH
-    GPIO.output(gpio_trigger, True)
+# def distance(gpio_trigger, gpio_echo):
+#     # set Trigger to HIGH
+#     GPIO.output(gpio_trigger, True)
  
-    # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
-    GPIO.output(gpio_trigger, False)
+#     # set Trigger after 0.01ms to LOW
+#     time.sleep(0.00001)
+#     GPIO.output(gpio_trigger, False)
  
-    StartTime = time.time()
-    StopTime = time.time()
+#     StartTime = time.time()
+#     StopTime = time.time()
  
-    # save StartTime
-    while GPIO.input(gpio_echo) == 0:
-        StartTime = time.time()
+#     # save StartTime
+#     while GPIO.input(gpio_echo) == 0:
+#         StartTime = time.time()
  
-    # save time of arrival
-    while GPIO.input(gpio_echo) == 1:
-        StopTime = time.time()
+#     # save time of arrival
+#     while GPIO.input(gpio_echo) == 1:
+#         StopTime = time.time()
  
-    # time difference between start and arrival
-    TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-    distance = (TimeElapsed * 34300) / 2
+#     # time difference between start and arrival
+#     TimeElapsed = StopTime - StartTime
+#     # multiply with the sonic speed (34300 cm/s)
+#     # and divide by 2, because there and back
+#     distance = (TimeElapsed * 34300) / 2
  
-    return distance
+#     return distance
 
 def crop(frame):
     frame_x = frame.shape[1]
