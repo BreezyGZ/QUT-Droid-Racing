@@ -7,7 +7,7 @@ import time
 import math
 import sys
 import serial
-from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, goStraight, TurnLeft, TurnRight, sendTurn, distance
+from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, goStraight, TurnLeft, TurnRight, sendTurn
 # from sign_processing import signRecognise, sign_detected_scripts
 # from obstacle_detection import obstacle_avoid_script
 from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, GREEN_LOWER, GREEN_UPPER, GREEN_STOP_THRESHOLD, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
@@ -64,7 +64,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     #     obstacle_avoid_script(ser, object_distance, hsv_img, blue_mask, yellow_mask)
 
     working_gradient = direction(blue_mask, yellow_mask)
-    print(working_gradient)
+    # print(working_gradient)
     sendTurn(ser, working_gradient)
     
     # if detect green, break after a certain time
