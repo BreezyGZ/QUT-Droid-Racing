@@ -40,8 +40,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     perspective_shifted = perspectiveShift(img_resized)
     hsv_img = cv.cvtColor(perspective_shifted, cv.COLOR_BGR2HSV)
     
-    blue_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
-    yellow_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
+    yellow_mask = cv.inRange(hsv_img, BLUE_LOWER, BLUE_UPPER)
+    blue_mask = cv.inRange(hsv_img, YELLOW_LOWER, YELLOW_UPPER)
     green_mask = cv.inRange(hsv_img, GREEN_LOWER, GREEN_UPPER)
 
     # if detect green, break after a certain time
