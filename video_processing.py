@@ -7,7 +7,7 @@ import time
 import math
 import sys
 import serial
-from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, direction, gradientOfMask, goStraight, TurnLeft, TurnRight, sendTurn
+from functions import frameRescale, perspectiveShift, findAverageX, findMaxY, findMinY, gradientOfMask, goStraight, TurnLeft, TurnRight, sendTurn
 # from sign_processing import signRecognise, sign_detected_scripts
 # from obstacle_detection import obstacle_avoid_script
 from global_variables import BLUE_LOWER, BLUE_UPPER, YELLOW_LOWER, YELLOW_UPPER, GREEN_LOWER, GREEN_UPPER, GREEN_STOP_THRESHOLD, BLACK_THRESHOLD, SIMILARITY_THRESHOLD, CONTOUR_AREA_THRESHOLD_BLACK, CONTOUR_AREA_THRESHOLD_LINE, PERSPECTIVE_SHIFT_COORDS, CONTOUR_LEFT, CONTOUR_RIGHT
